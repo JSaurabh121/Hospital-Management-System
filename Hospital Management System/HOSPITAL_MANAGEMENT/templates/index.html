@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Home - MaxCare Hospital{% endblock %}
+
+{% block content %}
+<section class="hero-section"
+    style="text-align: center; padding: 4rem 1rem; background: linear-gradient(180deg, rgba(79, 70, 229, 0.05) 0%, transparent 100%);">
+    <div class="container">
+        <h1
+            style="font-size: 3.5rem; margin-bottom: 1rem; background: -webkit-linear-gradient(45deg, var(--primary-color), var(--accent-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            Your Health, Our Priority
+        </h1>
+        <p
+            style="font-size: 1.25rem; color: var(--text-muted); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Experience world-class healthcare with state-of-the-art facilities and compassionate care at MaxCare
+            Hospital.
+        </p>
+
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+            <a href="{{ url_for('registration') }}" class="btn btn-primary"
+                style="padding: 1rem 2rem; font-size: 1.1rem;">
+                Get Started
+            </a>
+            <a href="{{ url_for('contact') }}" class="btn btn-outline" style="padding: 1rem 2rem; font-size: 1.1rem;">
+                Contact Us
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="features-section" style="padding: 4rem 0;">
+    <div class="container">
+        <h2 class="text-center" style="margin-bottom: 3rem;">Why Choose Us?</h2>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+            <!-- CARD 1 -->
+            <div class="card" style="text-align: center;">
+                <div style="font-size: 3rem; color: var(--secondary-color); margin-bottom: 1rem;">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <h3>Expert Doctors</h3>
+                <p class="text-muted">Highly qualified specialists dedicated to providing the best treatment plans for
+                    you.</p>
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="card" style="text-align: center;">
+                <div style="font-size: 3rem; color: var(--accent-color); margin-bottom: 1rem;">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <h3>Modern Care</h3>
+                <p class="text-muted">Utilizing the latest medical technology to ensure precise diagnosis and recovery.
+                </p>
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="card" style="text-align: center;">
+                <div style="font-size: 3rem; color: var(--success); margin-bottom: 1rem;">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>24/7 Support</h3>
+                <p class="text-muted">Round-the-clock emergency services and support for prompt medical attention.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section"
+    style="background: var(--primary-color); padding: 4rem 0; color: white; text-align: center; margin-top: 2rem;">
+    <div class="container">
+        <h2>Ready to book an appointment?</h2>
+        <p style="margin-bottom: 2rem; opacity: 0.9;">Join thousands of satisfied patients today.</p>
+        <a href="{{ url_for('login') }}" class="btn"
+            style="background: white; color: var(--primary-color); font-weight: bold;">
+            Book Now
+        </a>
+    </div>
+</section>
+{% endblock %}

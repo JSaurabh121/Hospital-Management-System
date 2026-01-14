@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Medical History - MaxCare{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h3>Medical History</h3>
+            <span class="text-muted">{{ patient.username }}</span>
+        </div>
+
+        {% if treatments %}
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; min-width: 800px;">
+                <thead>
+                    <tr style="background: #f9fafb; font-size: 0.9rem; text-align: left; color: var(--text-muted);">
+                        <th style="padding: 1rem;">Date</th>
+                        <th style="padding: 1rem;">Diagnosis</th>
+                        <th style="padding: 1rem;">Prescription</th>
+                        <th style="padding: 1rem;">Medicines</th>
+                        <th style="padding: 1rem;">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in treatments %}
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 1rem; white-space: nowrap;">{{ t.date_prescribed.strftime('%d/%m/%Y') }}
+                        </td>
+                        <td style="padding: 1rem;">{{ t.diagnosis }}</td>
+                        <td style="padding: 1rem;">{{ t.prescription }}</td>
+                        <td style="padding: 1rem;"><span
+                                style="background: #EEF2FF; color: var(--primary-color); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">{{
+                                t.medicines }}</span></td>
+                        <td style="padding: 1rem;">
+                            <span class="text-muted" style="font-size: 0.85rem;">{{ t.visit_type }}<br>{{ t.test_done
+                                }}</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div style="text-align: center; padding: 3rem; color: var(--text-muted);">
+            <i class="fas fa-file-medical" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+            <p>No medical history records found.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

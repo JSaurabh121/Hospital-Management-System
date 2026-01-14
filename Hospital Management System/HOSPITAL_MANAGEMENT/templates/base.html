@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CityCare Hospital{% endblock %}</title>
+
+    <!-- Google Fonts (Poppins for modern look) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Your CSS File -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <!-- LOGO -->
+            <a href="{{ url_for('index') }}" class="logo">
+                <i class="fas fa-hospital-symbol"></i> MaxCare
+            </a>
+
+            <!-- NAVIGATION LINKS -->
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+
+                {% if 'role' in session %}
+                {% if session['role'] == 'admin' %}
+                <li><a href="{{ url_for('admin_dashboard') }}">Admin Panel</a></li>
+                {% elif session['role'] == 'doctor' %}
+                <li><a href="{{ url_for('doctor_dashboard') }}">Doctor Panel</a></li>
+                {% else %}
+                <li><a href="{{ url_for('patient_dashboard') }}">My Dashboard</a></li>
+                {% endif %}
+
+                <li><a href="{{ url_for('logout') }}" class="btn-logout">
+                        Logout <i class="fas fa-sign-out-alt"></i>
+                    </a></li>
+
+                {% else %}
+                <li><a href="{{ url_for('login') }}" class="btn-login">Login</a></li>
+                <li><a href="{{ url_for('registration') }}" class="btn-register">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+
+    <!-- ================= FLASH MESSAGES (Errors/Success) ================= -->
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert-box {{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <div class="main-content">
+        {% block content %}
+        <!-- Child pages inject content here -->
+        {% endblock %}
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="site-footer">
+        <p>&copy; 2025 Maxcare Hospital Management System. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Login - MaxCare{% endblock %}
+
+{% block content %}
+<div
+    style="min-height: 80vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);">
+    <div class="glass-panel"
+        style="max-width: 450px; width: 100%; padding: 3rem; background: white; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);">
+
+        <h2 class="text-center" style="margin-bottom: 2rem; color: var(--primary-color);">Welcome Back</h2>
+
+        <form method="POST" action="{{ url_for('login') }}">
+            <div class="form-group">
+                <label class="form-label">Username</label>
+                <input type="text" name="username" class="form-control" placeholder="Enter your username" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Login</button>
+        </form>
+
+        <p class="text-center text-muted" style="margin-top: 2rem; font-size: 0.9rem;">
+            Don't have an account? <a href="{{ url_for('registration') }}"
+                style="color: var(--primary-color); font-weight: 600;">Register here</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

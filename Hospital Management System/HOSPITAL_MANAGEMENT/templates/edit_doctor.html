@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Edit Doctor - MaxCare{% endblock %}
+
+{% block content %}
+<div
+    style="min-height: 80vh; display: flex; align-items: center; justify-content: center; background: var(--bg-body); padding: 2rem 0;">
+    <div class="card" style="max-width: 600px; width: 100%;">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <h2>Edit Doctor</h2>
+            <p class="text-muted">Update doctor information.</p>
+        </div>
+
+        <form method="POST">
+            <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" name="name" class="form-control" value="{{ doctor.user.username }}" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" name="email" class="form-control" value="{{ doctor.user.email }}" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">New Password (Leave blank to keep current)</label>
+                <input type="password" name="password" class="form-control" placeholder="New password">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Department</label>
+                <select name="department_id" class="form-control" required>
+                    {% for dept in departments %}
+                    <option value="{{ dept.id }}" {% if dept.id==doctor.department_id %}selected{% endif %}>
+                        {{ dept.Department_name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label class="form-label">Qualification</label>
+                    <input type="text" name="qualification" class="form-control" value="{{ doctor.qualification }}">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Experience (Years)</label>
+                    <input type="number" name="experience" class="form-control" value="{{ doctor.experience }}">
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button type="submit" class="btn btn-primary" style="flex: 1;">Update Profile</button>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline" style="flex: 1;">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

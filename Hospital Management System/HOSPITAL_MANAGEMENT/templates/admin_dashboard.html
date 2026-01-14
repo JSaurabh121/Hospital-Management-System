@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block title %}Admin Panel - MaxCare{% endblock %}
+
+{% block content %}
+<style>
+    .stat-card {
+        padding: 1.5rem;
+        background: white;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-sm);
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: white;
+    }
+</style>
+
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1>Admin Dashboard</h1>
+        <a href="{{ url_for('create_doctor') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add Doctor
+        </a>
+    </div>
+
+    <!-- STATS ROW -->
+    <div
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+        <div class="stat-card">
+            <div class="stat-icon" style="background: var(--primary-color);">
+                <i class="fas fa-user-md"></i>
+            </div>
+            <div>
+                <h3 style="margin: 0; font-size: 1.5rem;">{{ doctors|length }}</h3>
+                <p class="text-muted">Doctors</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="background: var(--success);">
+                <i class="fas fa-procedures"></i>
+            </div>
+            <div>
+                <h3 style="margin: 0; font-size: 1.5rem;">{{ patients|length }}</h3>
+                <p class="text-muted">Patients</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="background: var(--warning);">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <div>
+                <h3 style="margin: 0; font-size: 1.5rem;">{{ appointments|length }}</h3>
+                <p class="text-muted">Appointments</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="card">
+        <h3 style="margin-bottom: 1.5rem;">Recent Activity</h3>
+
+        <div style="border-bottom: 1px solid #eee; margin-bottom: 1.5rem; display: flex; gap: 2rem;">
+            <span
+                style="padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-color); font-weight: 600; cursor: pointer;">All
+                Appointments</span>
+        </div>
+
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+            <thead>
+                <tr style="background: #f9fafb; font-size: 0.9rem; color: var(--text-muted);">
+                    <th style="padding: 1rem;">Date</th>
+                    <th style="padding: 1rem;">Doctor</th>
+                    <th style="padding: 1rem;">Patient</th>
+                    <th style="padding: 1rem;">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for a in appointments %}
+                <tr style="border-bottom: 1px solid #eee;">
+                    <td style="padding: 1rem;">
+                        <span style="font-weight: 500;">{{ a.date }}</span> <br>
+                        <small class="text-muted">{{ a.time }}</small>
+                    </td>
+                    <td style="padding: 1rem;">Dr. {{ a.doctor_user.username }}</td>
+                    <td style="padding: 1rem;">{{ a.patient_user.username }}</td>
+                    <td style="padding: 1rem;">
+                        <span
+                            style="padding: 4px 10px; border-radius: 99px; font-size: 0.8rem; background: #EEF2FF; color: var(--primary-color);">
+                            {{ a.status }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- DOCTOR MANAGEMENT -->
+    <div class="card" style="margin-top: 2rem;">
+        <h3 style="margin-bottom: 1.5rem;">Doctor Management</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background: #f9fafb; font-size: 0.9rem; color: var(--text-muted); text-align: left;">
+                    <th style="padding: 1rem;">Name</th>
+                    <th style="padding: 1rem;">Department</th>
+                    <th style="padding: 1rem;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in doctors %}
+                {% set prof = d.doctor_profile %}
+                {% set dept = prof.department if prof else None %}
+                <tr style="border-bottom: 1px solid #eee;">
+                    <td style="padding: 1rem; font-weight: 500;">{{ d.username }}</td>
+                    <td style="padding: 1rem;">
+                        {% if dept %}
+                        {{ dept.Department_name }}
+                        {% else %}
+                        <span class="text-muted">Unassigned</span>
+                        {% endif %}
+                    </td>
+                    <td style="padding: 1rem;">
+                        {% if prof %}
+                        <a href="{{ url_for('edit_doctor', doc_id=prof.id) }}" class="btn btn-outline btn-sm">Edit</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

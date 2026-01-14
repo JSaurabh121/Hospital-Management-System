@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Book Appointment - MaxCare{% endblock %}
+
+{% block content %}
+<div class="container" style="display: flex; justify-content: center;">
+    <div class="card" style="max-width: 800px; width: 100%;">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <h2>Book with Dr. {{ doctor.user.username }}</h2>
+            <p class="text-muted">Select a suitable time slot below.</p>
+        </div>
+
+        {% for date, times in slots.items() %}
+        <div style="margin-bottom: 2rem;">
+            <h4
+                style="margin-bottom: 1rem; color: var(--primary-color); border-bottom: 1px solid #eee; padding-bottom: 0.5rem;">
+                <i class="far fa-calendar-alt"></i> {{ date }}
+            </h4>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+                {% for time in times %}
+                {% set is_booked = (date, time) in booked_slots %}
+
+                {% if is_booked %}
+                <button disabled
+                    style="padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid #fee2e2; background: #fee2e2; color: #b91c1c; opacity: 0.7; cursor: not-allowed;">
+                    {{ time }} (Booked)
+                </button>
+                {% else %}
+                <form action="{{ url_for('book_appointment', doc_id=doctor.id) }}" method="POST">
+                    <input type="hidden" name="date" value="{{ date }}">
+                    <input type="hidden" name="time" value="{{ time }}">
+                    <button type="submit" class="btn btn-outline btn-sm"
+                        style="min-width: 120px; transition: 0.2s; border-color: var(--success); color: var(--success);">
+                        {{ time }}
+                    </button>
+                </form>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <div style="margin-top: 2rem; text-align: center;">
+            <a href="{{ url_for('patient_dashboard') }}" class="text-muted">Return to Dashboard</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
